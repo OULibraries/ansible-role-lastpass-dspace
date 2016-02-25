@@ -1,2 +1,24 @@
 ---
 # tasks file for oulibraries.lastpass-dspace
+
+- name: Check for lpass in path
+  command: which lpass
+
+- name: Verify user is logged into lastpass-cli
+  shell: lpass ls
+
+- name: lookup atmire mvn user in lastpass
+  command: lpass show 373449821012849478 --username | xargs
+  register: atmire.mvnuser
+
+- name: lookup atmire password in lastpass
+  command: lpass show 373449821012849478 --password | xargs
+  register: atmire.mvnpass
+
+- name: Get libdev private key from lastpass
+  command: lpass show --field "Private Key" 5738026792
+  register: libdev_private
+
+- name: Get libdev public key from lastpass
+  command: lpass show --field "Public Key" 5738026792
+  register: libdev_public
