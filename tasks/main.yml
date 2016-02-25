@@ -9,16 +9,30 @@
 
 - name: lookup atmire mvn user in lastpass
   command: lpass show 373449821012849478 --username | xargs
-  register: atmire.mvnuser
+  register: get_atmire_user
+- name: Set atmire user as fact
+  set_fact:
+    atmire_user: "{{ get_atmire_user.stdout }}"
 
 - name: lookup atmire password in lastpass
   command: lpass show 373449821012849478 --password | xargs
-  register: atmire.mvnpass
+  register: get_atmire_pass
+- name: Set atmire password as fact
+  set_fact:
+    atmire_pass: "{{ get_atmire_pass.stdout }}"
 
-- name: Get libdev private key from lastpass
+- name: Get deploy private key from lastpass
   command: lpass show --field "Private Key" 5738026792
-  register: libdev_private
-
-- name: Get libdev public key from lastpass
+  register: deploy_private
+- name: Set atmire password as fact
+  set_fact:
+    deploy_private_key: "{{ libdev_private.stdout }}"
+  
+- name: Get deploy public key from lastpass
   command: lpass show --field "Public Key" 5738026792
-  register: libdev_public
+  register: deploy_public
+- name: Set atmire password as fact
+  set_fact:
+    deploy_public_key: "{{ libdev_public.stdout }}"
+ 
+    
